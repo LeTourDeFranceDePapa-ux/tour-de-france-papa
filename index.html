@@ -22,7 +22,19 @@ button.secondary{background:#ece3d3;color:#263238}.list{max-height:260px;overflo
 <header><h1>🇫🇷 Le Tour de France de Papa ❤️</h1><div class="sub">Chaque pas te mène plus loin !</div></header>
 <main class="app"><section class="card" style="position:relative"><div id="map"></div><div id="loading" class="loading">🗺️ Préparation du parcours…</div></section>
 <aside class="card panel"><div class="stat"><div><div class="muted">Distance parcourue</div><div class="total"><span id="total">0,00</span> km</div></div><div style="text-align:right"><div class="muted">Étape</div><b id="stage" style="font-size:24px">0 / 20</b></div></div>
-<div class="progress"><div id="bar"></div></div><div class="next"><div class="muted">Prochaine étape</div><strong id="next">Toulouse</strong><div id="remaining" class="muted">Calcul en cours…</div></div>
+<div class="progress"><div id="bar"></div></div><div class="next"><div class="next">
+  <div class="muted">Prochaine étape</div>
+  <strong id="next">Toulouse</strong>
+  <div id="remaining" class="muted">Calcul en cours…</div>
+</div>
+
+<div id="stageCard" class="stage-card">
+  <img id="stageImage" src="images/etapes/Toulouse.png" alt="Toulouse">
+  <div class="stage-caption">
+    <span id="stageNumber">Étape 1</span>
+    <strong id="stageName">Toulouse</strong>
+  </div>
+</div>
 <div class="title">➕ Ajouter les marches du jour</div><div class="row">
 <div><label>☀️ Matin (km)</label><input id="morning" type="number" min="0" step=".01" placeholder="0,80"></div>
 <div><label>🌙 Soir (km)</label><input id="evening" type="number" min="0" step=".01" placeholder="0,80"></div></div>
@@ -93,7 +105,10 @@ function pos(k){
 }
 function fmt(x){return x.toFixed(2).replace(".",",")}
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function render(){let total=data.walks.reduce((s,x)=>s+x.total,0),s=0;while(s<20&&total>=stageKm[s+1])s++;document.getElementById("total").textContent=fmt(total);document.getElementById("stage").textContent=s+" / 20";document.getElementById("next").textContent=s<20?stages[s+1].name:"Saint-Gaudens";document.getElementById("remaining").textContent=s<20?"Encore environ "+fmt(stageKm[s+1]-total)+" km":"Tour terminé 🎉";document.getElementById("bar").style.width=Math.min(100,total/routeKm*100)+"%";if(marker)marker.setLatLng(pos(total));
+function render(){let total=data.walks.reduce((s,x)=>s+x.total,0),s=0;while(s<20&&total>=stageKm[s+1])s++;document.getElementById("stageImage").src = stages[s].image;
+document.getElementById("stageImage").alt = stages[s].name;
+document.getElementById("stageNumber").textContent = "Étape " + s;
+document.getElementById("stageName").textContent = stages[s].name;;document.getElementById("total").textContent=fmt(total);document.getElementById("stage").textContent=s+" / 20";document.getElementById("next").textContent=s<20?stages[s+1].name:"Saint-Gaudens";document.getElementById("remaining").textContent=s<20?"Encore environ "+fmt(stageKm[s+1]-total)+" km":"Tour terminé 🎉";document.getElementById("bar").style.width=Math.min(100,total/routeKm*100)+"%";if(marker)marker.setLatLng(pos(total));
 document.getElementById("log").innerHTML=data.walks.slice().reverse().map(x=>`<div><span>${x.date}</span><b>${fmt(x.total)} km</b></div>`).join("")||'<div class="muted" style="padding:8px 0">Aucune marche enregistrée.</div>';
 document.getElementById("list").innerHTML=stages.map((x,i)=>`<div class="item ${total>=stageKm[i]?"done":i==s?"current":""}"><span class="badge">${x.n}</span><span><b>${x.name}</b><br><span class="muted">${fmt(stageKm[i]||0)} km cumulés</span></span></div>`).join("")}
 function addWalk(){let a=+morning.value||0,b=+evening.value||0,t=Math.round((a+b)*100)/100;if(t<=0)return alert("Entre au moins une distance.");if(t>100)return alert("Vérifie les distances saisies.");data.walks.push({date:new Date().toLocaleDateString("fr-FR"),morning:a,evening:b,total:t});save();morning.value=evening.value="";render()}
