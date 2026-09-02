@@ -30,7 +30,29 @@ button.secondary{background:#ece3d3;color:#263238}.list{max-height:260px;overflo
 <div id="log" class="log"></div><div id="list" class="list"></div><div class="note">Carte © OpenStreetMap contributors. Tracé routier calculé automatiquement pour cette V1.</div></aside></main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const stages=[{"n": 0, "name": "Saint-Gaudens", "lat": 43.108, "lon": 0.724}, {"n": 1, "name": "Toulouse", "lat": 43.6047, "lon": 1.4442}, {"n": 2, "name": "Carcassonne", "lat": 43.213, "lon": 2.3491}, {"n": 3, "name": "Montpellier", "lat": 43.6119, "lon": 3.8772}, {"n": 4, "name": "Marseille", "lat": 43.2965, "lon": 5.3698}, {"n": 5, "name": "Nice", "lat": 43.7102, "lon": 7.262}, {"n": 6, "name": "Grenoble", "lat": 45.1885, "lon": 5.7245}, {"n": 7, "name": "Annecy", "lat": 45.8992, "lon": 6.1294}, {"n": 8, "name": "Dijon", "lat": 47.322, "lon": 5.0415}, {"n": 9, "name": "Strasbourg", "lat": 48.5734, "lon": 7.7521}, {"n": 10, "name": "Reims", "lat": 49.2583, "lon": 4.0317}, {"n": 11, "name": "Lille", "lat": 50.6292, "lon": 3.0573}, {"n": 12, "name": "Rouen", "lat": 49.4432, "lon": 1.0993}, {"n": 13, "name": "Caen", "lat": 49.1829, "lon": -0.3707}, {"n": 14, "name": "Rennes", "lat": 48.1173, "lon": -1.6778}, {"n": 15, "name": "Nantes", "lat": 47.2184, "lon": -1.5536}, {"n": 16, "name": "La Rochelle", "lat": 46.1603, "lon": -1.1511}, {"n": 17, "name": "Bordeaux", "lat": 44.8378, "lon": -0.5792}, {"n": 18, "name": "Bayonne", "lat": 43.4933, "lon": -1.4748}, {"n": 19, "name": "Pau", "lat": 43.2951, "lon": -0.3701}, {"n": 20, "name": "Saint-Gaudens", "lat": 43.108, "lon": 0.724}];const KEY="tourPapaV1";let data=JSON.parse(localStorage.getItem(KEY)||'{"walks":[]}');
+const stages=[
+{"n":0,"name":"Saint-Gaudens","lat":43.108,"lon":0.724,"image":"images/etapes/Saint-Gaudens.png"},
+{"n":1,"name":"Toulouse","lat":43.6047,"lon":1.4442,"image":"images/etapes/Toulouse.png"},
+{"n":2,"name":"Carcassonne","lat":43.213,"lon":2.3491,"image":"images/etapes/Carcassonne.png"},
+{"n":3,"name":"Montpellier","lat":43.6119,"lon":3.8772,"image":"images/etapes/Montpellier.png"},
+{"n":4,"name":"Marseille","lat":43.2965,"lon":5.3698,"image":"images/etapes/Marseille.png"},
+{"n":5,"name":"Nice","lat":43.7102,"lon":7.262,"image":"images/etapes/Nice.png"},
+{"n":6,"name":"Grenoble","lat":45.1885,"lon":5.7245,"image":"images/etapes/Grenoble.png"},
+{"n":7,"name":"Annecy","lat":45.8992,"lon":6.1294,"image":"images/etapes/Annecy.png"},
+{"n":8,"name":"Dijon","lat":47.322,"lon":5.0415,"image":"images/etapes/Dijon.png"},
+{"n":9,"name":"Strasbourg","lat":48.5734,"lon":7.7521,"image":"images/etapes/Strasbourg.png"},
+{"n":10,"name":"Reims","lat":49.2583,"lon":4.0317,"image":"images/etapes/Reims.png"},
+{"n":11,"name":"Lille","lat":50.6292,"lon":3.0573,"image":"images/etapes/Lille.png"},
+{"n":12,"name":"Rouen","lat":49.4432,"lon":1.0993,"image":"images/etapes/Rouen.png"},
+{"n":13,"name":"Caen","lat":49.1829,"lon":-0.3707,"image":"images/etapes/Caen.png"},
+{"n":14,"name":"Rennes","lat":48.1173,"lon":-1.6778,"image":"images/etapes/Rennes.png"},
+{"n":15,"name":"Nantes","lat":47.2184,"lon":-1.5536,"image":"images/etapes/Nantes.png"},
+{"n":16,"name":"La Rochelle","lat":46.1603,"lon":-1.1511,"image":"images/etapes/La Rochelle.png"},
+{"n":17,"name":"Bordeaux","lat":44.8378,"lon":-0.5792,"image":"images/etapes/Bordeaux.png"},
+{"n":18,"name":"Bayonne","lat":43.4933,"lon":-1.4748,"image":"images/etapes/Bayonne.png"},
+{"n":19,"name":"Pau","lat":43.2951,"lon":-0.3701,"image":"images/etapes/Pau.png"},
+{"n":20,"name":"Saint-Gaudens","lat":43.108,"lon":0.724,"image":"images/etapes/Saint-Gaudens.png"}
+];];const KEY="tourPapaV1";let data=JSON.parse(localStorage.getItem(KEY)||'{"walks":[]}');
 let route=[],cum=[],stageKm=[],routeKm=0,marker;
 const map=L.map("map").setView([46.5,2.2],6);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);
