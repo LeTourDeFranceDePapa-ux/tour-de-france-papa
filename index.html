@@ -73,27 +73,62 @@ function dist(a,b){let R=6371,p=Math.PI/180,d1=(b[0]-a[0])*p,d2=(b[1]-a[1])*p,x=
 async function leg(a,b){let u=`https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=full&geometries=geojson`,r=await fetch(u);if(!r.ok)throw 0;let j=await r.json();return j.routes[0].geometry.coordinates.map(c=>[c[1],c[0]])}
 function icon(){return L.divIcon({className:"",html:'<div style="font-size:34px;filter:drop-shadow(0 2px 2px #0004)">🚶‍♂️</div>',iconSize:[38,38],iconAnchor:[19,34]})}
 async function build(){
- try{
-  let all=[], cumulative=0;
-  stageKm=[0];
-  for(let i=0;i<stages.length-1;i++){
-    let p=await leg(stages[i],stages[i+1]);
-    all=all.concat(i?p.slice(1):p);
-    const a=stages[i], b=stages[i+1];
-    const u=`https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=false`;
-    const rr=await fetch(u); if(!rr.ok) throw 0;
-    const jj=await rr.json(); if(!jj.routes || !jj.routes[0]) throw 0;
-    cumulative += jj.routes[0].distance/1000;
-    stageKm.push(cumulative);
+  const fixedKm=[
+    0,
+    95.70,
+    190.68,
+    340.72,
+    509.53,
+    708.66,
+    1171.95,
+    1277.97,
+    1543.85,
+    1876.53,
+    2226.64,
+    2424.37,
+    2677.80,
+    2806.72,
+    2989.66,
+    3102.65,
+    3239.13,
+    3424.06,
+    3607.61,
+    3718.77,
+    3809.95
+  ];
+
+  route=[];
+  cum=[];
+  stageKm=fixedKm;
+  routeKm=stageKm[20];
+
+  for(let i=0;i<stages.length;i++){
+    route.push([stages[i].lat,stages[i].lon]);
+    cum.push(stageKm[i]);
   }
-  route=all; cum=[0];
-  for(let i=1;i<route.length;i++) cum.push(cum[i-1]+dist(route[i-1],route[i]));
-  routeKm=cumulative;
-  L.polyline(route,{color:"#d95d39",weight:4,opacity:.82}).addTo(map).bringToFront();
-  map.fitBounds(L.latLngBounds(route),{padding:[25,25]});
-  marker=L.marker(route[0],{icon:icon(),zIndexOffset:1000}).addTo(map);
-  loading.style.display="none"; render()
- }catch(e){loading.innerHTML="⚠️ Le tracé n’a pas pu être chargé.<br><small>Recharge la page avec Internet.</small>"}
+
+  if(window.routeLine) map.removeLayer(window.routeLine);
+
+  window.routeLine=L.polyline(route,{
+    color:"#d95d39",
+    weight:5,
+    opacity:.8,
+    dashArray:"10 8"
+  }).addTo(map);
+
+  map.fitBounds(window.routeLine.getBounds(),{
+    padding:[30,30]
+  });
+
+  if(marker) marker.remove();
+
+  marker=L.marker(pos(0),{
+    icon:icon()
+  }).addTo(map);
+
+  document.getElementById("loading").style.display="none";
+
+  render();
 }
 function pos(k){
  if(k<=0)return route[0]; if(k>=routeKm)return route.at(-1);
