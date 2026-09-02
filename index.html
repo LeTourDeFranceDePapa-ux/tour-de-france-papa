@@ -64,7 +64,7 @@ const stages=[
 {"n":18,"name":"Bayonne","lat":43.4933,"lon":-1.4748,"image":"images/etapes/Bayonne.png"},
 {"n":19,"name":"Pau","lat":43.2951,"lon":-0.3701,"image":"images/etapes/Pau.png"},
 {"n":20,"name":"Saint-Gaudens","lat":43.108,"lon":0.724,"image":"images/etapes/Saint-Gaudens.png"}
-];];const KEY="tourPapaV1";let data=JSON.parse(localStorage.getItem(KEY)||'{"walks":[]}');
+];const KEY="tourPapaV1";let data=JSON.parse(localStorage.getItem(KEY)||'{"walks":[]}');
 let route=[],cum=[],stageKm=[],routeKm=0,marker;
 const map=L.map("map").setView([46.5,2.2],6);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);
