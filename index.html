@@ -1,309 +1,51 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173f35">
 <title>Le Tour de France de Papa</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--green:#4f7d58;--red:#d95d39;--paper:#fffaf0;--line:#eadfca}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(#f7efe1,#fffaf2);color:#263238;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-header{text-align:center;padding:22px 15px 10px}h1{font:700 clamp(28px,5vw,46px) Georgia,serif;margin:0}.sub{color:#68736b}
-.app{max-width:1250px;margin:auto;padding:12px;display:grid;grid-template-columns:1fr 330px;gap:14px}.card{background:#fffffff0;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px #503c1e14}
-#map{height:720px;border-radius:18px;overflow:hidden}.panel{padding:17px}.muted{color:#788078;font-size:13px}.total{font-size:35px;font-weight:800}.stat{display:flex;justify-content:space-between;align-items:end}
-.progress{height:12px;background:#eee4d2;border-radius:99px;overflow:hidden;margin:10px 0 16px}.progress div{height:100%;background:linear-gradient(90deg,var(--green),#e7a83b,var(--red));width:0;transition:.4s}
-.next{background:#f4ecdd;border-radius:14px;padding:13px;margin-bottom:15px}.next strong{font-size:20px}
-.title{font-weight:800;margin:14px 0 8px}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-label{font-size:13px}input{width:100%;padding:11px;border:1px solid #d9ceba;border-radius:10px;font-size:16px}
-button{width:100%;margin-top:9px;padding:11px;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:800;cursor:pointer}
-button.secondary{background:#ece3d3;color:#263238}.list{max-height:260px;overflow:auto;margin-top:14px;border-top:1px solid var(--line)}
-.item{display:flex;gap:8px;padding:7px 2px;border-bottom:1px solid #f0e9dd;font-size:13px}.badge{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#eee2d0;font-weight:800;flex:none}.done .badge{background:var(--green);color:white}.current .badge{background:var(--red);color:white}
-.log{max-height:150px;overflow:auto;border-top:1px solid var(--line);margin-top:12px}.log div{display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid #eee5d7;font-size:13px}
-.note{font-size:11px;color:#777;margin-top:8px}.loading{position:absolute;z-index:1000;left:50%;top:50%;transform:translate(-50%,-50%);background:white;padding:12px 16px;border-radius:12px;box-shadow:0 6px 20px #0002;font-weight:700}
-@media(max-width:900px){.app{grid-template-columns:1fr}#map{height:62vh;min-height:440px}}
-.stage-card{
-  background:#fffaf0;
-  border:2px solid #eadfca;
-  border-radius:18px;
-  padding:10px;
-  margin:0 0 15px;
-  box-shadow:0 6px 18px #503c1e18;
-  position:relative;
-  overflow:hidden;
-}
-
-.stage-card::before{
-  content:"✈  CARNET DE VOYAGE  •  LE TOUR DE FRANCE DE PAPA  ✈";
-  display:block;
-  position:relative;
-  z-index:5;
-  padding:10px;
-  background:#304c37;
-  color:#fffaf0;
-  text-align:center;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:1.5px;.stage-card img{
-  position:relative;
-  z-index:2;
-}
-
-/* ===== CARTE ÉTAPE — CARNET DE VOYAGE ===== */
-
-.stage-card{
-  position:relative;
-  margin:18px 0 20px;
-  padding:0;
-  background:#f8f0df;
-  border:1px solid #d8c7aa;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:
-    0 10px 25px rgba(80,60,30,.14),
-    inset 0 0 0 4px rgba(255,255,255,.45);
-  transform:rotate(-0.4deg);
-}
-
-/* bandeau coloré en haut */
-
-.stage-card::before{
-  content:"✈  CARNET DE VOYAGE  •  LE TOUR DE FRANCE DE PAPA  ✈";
-  display:block;
-  padding:8px 10px;
-  background:#304c37;
-  color:#fffaf0;
-  text-align:center;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:1.5px;
-}
-
-/* petite décoration façon tampon */
-
-.stage-card::after{
-  content:"❤️";
-  position:absolute;
-  right:13px;
-  top:42px;
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  background:#d95d39;
-  color:white;
-  border-radius:50%;
-  font-size:17px;
-  transform:rotate(8deg);
-  box-shadow:0 3px 8px rgba(0,0,0,.18);
-}
-
-/* image de la ville */
-
-.stage-card img{
-  width:calc(100% - 22px);
-  height:185px;
-  object-fit:cover;
-  display:block;
-  margin:14px 11px 0;
-  border:7px solid #fffdf7;
-  border-bottom-width:20px;
-  border-radius:3px;
-  box-shadow:0 5px 12px rgba(60,45,25,.20);
-  filter:saturate(1.08) contrast(1.03);
-}
-
-/* texte sous la photo */
-
-.stage-caption{
-  position:relative;
-  text-align:center;
-  padding:13px 12px 17px;
-}
-
-/* ligne décorative */
-
-.stage-caption::before{
-  content:"✦  ✦  ✦";
-  display:block;
-  color:#d95d39;
-  font-size:12px;
-  letter-spacing:5px;
-  margin-bottom:4px;
-}
-
-/* numéro de l'étape */
-
-.stage-caption span{
-  display:inline-block;
-  padding:5px 12px;
-  background:#d95d39;
-  color:white;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  box-shadow:0 2px 5px rgba(0,0,0,.12);
-}
-
-/* nom de la ville */
-
-.stage-caption strong{
-  display:block;
-  margin-top:7px;
-  color:#304c37;
-  font:700 29px Georgia,serif;
-  letter-spacing:.3px;
-}
-
-/* petit sous-texte */
-
-.stage-caption strong::after{
-  content:"Une nouvelle étape de l'aventure ❤️";
-  display:block;
-  margin-top:4px;
-  color:#887861;
-  font:italic 12px Georgia,serif;
-  letter-spacing:.3px;
-}
-
-/* adaptation téléphone */
-
-@media(max-width:900px){
-  .stage-card img{
-    height:200px;
-  }
-
-  .stage-caption strong{
-    font-size:27px;
-}
-</style></head><body>
-<header><h1>🇫🇷 Le Tour de France de Papa ❤️</h1><div class="sub">Chaque pas te mène plus loin !</div></header>
-<main class="app"><section class="card" style="position:relative"><div id="map"></div><div id="loading" class="loading">🗺️ Préparation du parcours…</div></section>
-<aside class="card panel"><div class="stat"><div><div class="muted">Distance parcourue</div><div class="total"><span id="total">0,00</span> km</div></div><div style="text-align:right"><div class="muted">Étape</div><b id="stage" style="font-size:24px">0 / 20</b></div></div>
-<div class="progress"><div id="bar"></div></div><div class="next"><div class="next">
-  <div class="muted">Prochaine étape</div>
-  <strong id="next">Toulouse</strong>
-  <div id="remaining" class="muted">Calcul en cours…</div>
-</div>
-
-<div id="stageCard" class="stage-card">
-  <img id="stageImage" src="images/etapes/Toulouse.png" alt="Toulouse">
-  <div class="stage-caption">
-    <span id="stageNumber">Étape 1</span>
-    <strong id="stageName">Toulouse</strong>
-  </div>
-</div>
-<div class="title">➕ Ajouter les marches du jour</div><div class="row">
-<div><label>☀️ Matin (km)</label><input id="morning" type="number" min="0" step=".01" placeholder="0,80"></div>
-<div><label>🌙 Soir (km)</label><input id="evening" type="number" min="0" step=".01" placeholder="0,80"></div></div>
-<button onclick="addWalk()">Enregistrer la journée</button><button class="secondary" onclick="undo()">↩️ Annuler la dernière</button><button class="secondary" onclick="resetData()">Réinitialiser</button>
-<div id="log" class="log"></div><div id="list" class="list"></div><div class="note">Carte © OpenStreetMap contributors. Tracé routier calculé automatiquement pour cette V1.</div></aside></main>
+:root{--forest:#173f35;--green:#3f765e;--red:#d8563f;--gold:#e4a83d;--ink:#24312d;--muted:#66736d;--paper:#fffdf7;--canvas:#f3ecdf;--line:#e3d7c3;--shadow:0 16px 42px #3728141a}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:radial-gradient(circle at 10% 0%,#e4a83d21,transparent 30rem),linear-gradient(180deg,#f7f1e7,var(--canvas));color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}
+.site-header{max-width:1280px;margin:auto;padding:24px 20px 16px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:14px}.brand-mark{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--forest);color:#fff;font-size:25px;box-shadow:0 8px 22px #173f3533}h1{margin:0;color:var(--forest);font:700 clamp(1.75rem,4vw,2.65rem)/1.05 Georgia,serif;letter-spacing:-.025em}.subtitle{margin:5px 0 0;color:var(--muted);font-size:.98rem}.header-pill{padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:#fffdf7b3;color:var(--forest);font-size:.82rem;font-weight:800;white-space:nowrap}
+.app{max-width:1280px;margin:auto;padding:0 20px 28px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;align-items:start}.card{background:#fffdf7f0;border:1px solid #e3d7c3e6;border-radius:22px;box-shadow:var(--shadow)}.map-card{position:relative;overflow:hidden}#map{height:min(750px,calc(100vh - 126px));min-height:570px}.map-overlay{position:absolute;z-index:500;left:18px;top:18px;max-width:calc(100% - 36px);padding:10px 13px;border:1px solid #ffffffb3;border-radius:13px;background:#fffdf7eb;backdrop-filter:blur(8px);box-shadow:0 7px 20px #23312d1f;font-size:.82rem;color:var(--muted)}.map-overlay b{color:var(--forest)}.loading{position:absolute;z-index:1000;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 6px 20px #00000024;font-weight:750;white-space:nowrap}
+.panel{padding:19px}.panel-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}.eyebrow{margin-bottom:4px;color:var(--muted);font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.total{font-size:clamp(1.9rem,4vw,2.35rem);font-weight:850;line-height:1;letter-spacing:-.04em}.total small{font-size:1rem;letter-spacing:0}.stage-count{text-align:right;color:var(--forest);font-size:1.35rem;font-weight:850}.progress-track{height:12px;margin:14px 0 8px;overflow:hidden;border-radius:999px;background:#e9dfcf;box-shadow:inset 0 1px 2px #00000012}.progress-bar{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--gold),var(--red));transition:width .45s ease}.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem}.next{margin:17px 0 15px;padding:13px 14px;border-left:4px solid var(--gold);border-radius:12px;background:#f4ecde}.next strong{display:block;color:var(--forest);font:700 1.35rem Georgia,serif}.muted{color:var(--muted);font-size:.8rem;line-height:1.4}
+.stage-card{position:relative;margin:0 0 18px;overflow:hidden;border:1px solid #d8c7aa;border-radius:17px;background:#f8f0df;box-shadow:0 8px 22px #503c1e21}.stage-ribbon{padding:8px 10px;background:var(--forest);color:#fffaf0;text-align:center;font-size:.58rem;font-weight:850;letter-spacing:.13em}.stage-card:after{content:"❤";position:absolute;right:13px;top:42px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--red);color:#fff;box-shadow:0 3px 8px #0003;transform:rotate(8deg)}.stage-card img{width:calc(100% - 22px);height:180px;margin:12px 11px 0;display:block;object-fit:cover;border:6px solid #fffdf7;border-bottom-width:15px;border-radius:3px;box-shadow:0 5px 12px #3c2d192e}.stage-caption{padding:10px 12px 15px;text-align:center}.stage-caption span{display:inline-block;padding:4px 10px;border-radius:20px;background:var(--red);color:#fff;font-size:.66rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase}.stage-caption strong{display:block;margin-top:6px;color:var(--forest);font:700 1.65rem Georgia,serif}
+.section-title{margin:17px 0 10px;color:var(--forest);font-weight:850}.session-switch{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}.session-switch input{position:absolute;opacity:0;pointer-events:none}.session-switch label{min-height:42px;margin:0;display:grid;place-items:center;border:1px solid #d4c6ae;border-radius:10px;background:#fff;cursor:pointer}.session-switch input:checked+label{border-color:var(--green);background:#e8f0eb;color:var(--forest);box-shadow:inset 0 0 0 1px var(--green)}.input-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field-wide{grid-column:1/-1}.speed-result{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:9px 11px;border-radius:10px;background:#f4ecde;color:var(--forest);font-size:.82rem}.speed-result b{font-size:1.05rem}label{display:block;margin-bottom:5px;color:var(--muted);font-size:.78rem;font-weight:750}input{width:100%;min-height:44px;padding:10px 11px;border:1px solid #d4c6ae;border-radius:10px;background:#fff;color:var(--ink);font-size:1rem;outline:none}input:focus{border-color:var(--green);box-shadow:0 0 0 3px #3f765e24}button{width:100%;min-height:44px;margin-top:9px;padding:10px 12px;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:850;cursor:pointer;transition:.15s}button:hover{background:var(--forest)}button:active{transform:translateY(1px)}button:focus-visible{outline:3px solid #e4a83d8c;outline-offset:2px}.button-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}button.secondary{background:#eee5d7;color:var(--ink);font-size:.82rem}button.secondary:hover{background:#e4d8c6}.export-button{background:var(--forest)}
+details{margin-top:17px;border-top:1px solid var(--line)}summary{padding:13px 0 8px;color:var(--forest);font-weight:850;cursor:pointer}.log,.stage-list{max-height:225px;overflow:auto;scrollbar-width:thin}.log-entry{display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid #eee5d7;font-size:.8rem}.stage-item{display:flex;gap:9px;padding:8px 2px;border-bottom:1px solid #eee5d7;font-size:.8rem}.badge{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;background:#e9dfcf;font-weight:850}.stage-item.done .badge{background:var(--green);color:#fff}.stage-item.current{color:var(--forest)}.stage-item.current .badge{background:var(--red);color:#fff;box-shadow:0 0 0 4px #d8563f21}.note{margin:13px 0 0;color:#7b817e;font-size:.69rem;line-height:1.4}.leaflet-popup-content-wrapper{border-radius:12px}.walker-marker{font-size:2rem;filter:drop-shadow(0 2px 2px #00000047)}
+@media(max-width:960px){.site-header{padding:18px 14px 13px}.header-pill{display:none}.app{padding:0 12px 22px;grid-template-columns:1fr}#map{height:56vh;min-height:430px}.panel{padding:17px}.stage-card{display:grid;grid-template-columns:minmax(180px,.85fr) 1fr;align-items:center}.stage-ribbon{position:absolute;z-index:2;top:0;left:0;right:0}.stage-card img{width:calc(100% - 18px);height:160px;margin:38px 9px 9px}.stage-caption{padding-top:35px}}
+@media(max-width:560px){.brand-mark{width:44px;height:44px;font-size:21px}.subtitle{font-size:.85rem}#map{height:52vh;min-height:370px}.map-overlay{left:10px;top:10px;max-width:calc(100% - 20px)}.panel-heading{align-items:center}.stage-card{display:block}.stage-card img{width:calc(100% - 22px);height:190px;margin:40px 11px 0}.stage-caption{padding-top:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="brand"><div class="brand-mark" aria-hidden="true">🚶‍♂️</div><div><h1>Le Tour de France de Papa</h1><p class="subtitle">Chaque pas te mène un peu plus loin ❤️</p></div></div><div class="header-pill">🇫🇷 20 étapes • 3 809,95 km</div></header>
+<main class="app">
+<section class="card map-card" aria-label="Carte du parcours"><div id="map"></div><div class="map-overlay"><b>Parcours de Papa</b> · du départ jusqu’à l’arrivée</div><div id="loading" class="loading" role="status">🗺️ Préparation du parcours…</div></section>
+<aside class="card panel" aria-label="Suivi de la progression">
+<div class="panel-heading"><div><div class="eyebrow">Distance parcourue</div><div class="total"><span id="total">0,00</span> <small>km</small></div></div><div><div class="eyebrow">Étape</div><div id="stage" class="stage-count">0 / 20</div></div></div>
+<div class="progress-track" role="progressbar" aria-label="Progression du tour" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bar" class="progress-bar"></div></div><div class="progress-meta"><span id="percentage">0 % du tour</span><span>3 809,95 km</span></div>
+<div class="next"><div class="eyebrow">Prochaine étape</div><strong id="next">Toulouse</strong><div id="remaining" class="muted">Calcul en cours…</div></div>
+<div class="stage-card"><div class="stage-ribbon">CARNET DE VOYAGE • LE TOUR DE PAPA</div><img id="stageImage" src="images/etapes/Saint-Gaudens.png" alt="Saint-Gaudens"><div class="stage-caption"><span id="stageNumber">Départ</span><strong id="stageName">Saint-Gaudens</strong><div class="muted">Une nouvelle étape de l’aventure</div></div></div>
+<div class="section-title">Ajouter une marche</div>
+<div class="session-switch"><input id="morningSession" name="session" type="radio" value="Matin" checked><label for="morningSession">☀️ Matin</label><input id="afternoonSession" name="session" type="radio" value="Après-midi"><label for="afternoonSession">🌤️ Après-midi</label></div>
+<div class="input-row"><div><label for="duration">Durée (minutes)</label><input id="duration" type="number" min="1" max="600" step="1" inputmode="numeric" placeholder="30"></div><div><label for="distance">Distance (km)</label><input id="distance" type="number" min="0.01" max="100" step="0.01" inputmode="decimal" placeholder="2,50"></div><div><label for="heartRate">Rythme cardiaque (bpm)</label><input id="heartRate" type="number" min="30" max="240" step="1" inputmode="numeric" placeholder="110"></div><div><label for="incline">Inclinaison (%)</label><input id="incline" type="number" min="0" max="30" step="0.5" inputmode="decimal" placeholder="3"></div><div class="field-wide speed-result"><span>Vitesse moyenne calculée</span><b id="speed">— km/h</b></div></div>
+<button id="saveWalk" type="button">Enregistrer cette marche</button><div class="button-row"><button id="undoWalk" class="secondary" type="button">↩ Annuler la dernière</button><button id="resetWalks" class="secondary" type="button">Réinitialiser</button></div><button id="exportWalks" class="export-button" type="button">⬇ Télécharger le fichier de suivi</button>
+<details><summary>Historique des marches</summary><div id="log" class="log"></div></details><details><summary>Voir les 20 étapes</summary><div id="list" class="stage-list"></div></details><p class="note">Carte © OpenStreetMap contributors. Les marches sont enregistrées sur cet appareil.</p>
+</aside></main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const stages=[
-{"n":0,"name":"Saint-Gaudens","lat":43.108,"lon":0.724,"image":"images/etapes/Saint-Gaudens.png"},
-{"n":1,"name":"Toulouse","lat":43.6047,"lon":1.4442,"image":"images/etapes/Toulouse.png"},
-{"n":2,"name":"Carcassonne","lat":43.213,"lon":2.3491,"image":"images/etapes/Carcassonne.png"},
-{"n":3,"name":"Montpellier","lat":43.6119,"lon":3.8772,"image":"images/etapes/Montpellier.png"},
-{"n":4,"name":"Marseille","lat":43.2965,"lon":5.3698,"image":"images/etapes/Marseille.png"},
-{"n":5,"name":"Nice","lat":43.7102,"lon":7.262,"image":"images/etapes/Nice.png"},
-{"n":6,"name":"Grenoble","lat":45.1885,"lon":5.7245,"image":"images/etapes/Grenoble.png"},
-{"n":7,"name":"Annecy","lat":45.8992,"lon":6.1294,"image":"images/etapes/Annecy.png"},
-{"n":8,"name":"Dijon","lat":47.322,"lon":5.0415,"image":"images/etapes/Dijon.png"},
-{"n":9,"name":"Strasbourg","lat":48.5734,"lon":7.7521,"image":"images/etapes/Strasbourg.png"},
-{"n":10,"name":"Reims","lat":49.2583,"lon":4.0317,"image":"images/etapes/Reims.png"},
-{"n":11,"name":"Lille","lat":50.6292,"lon":3.0573,"image":"images/etapes/Lille.png"},
-{"n":12,"name":"Rouen","lat":49.4432,"lon":1.0993,"image":"images/etapes/Rouen.png"},
-{"n":13,"name":"Caen","lat":49.1829,"lon":-0.3707,"image":"images/etapes/Caen.png"},
-{"n":14,"name":"Rennes","lat":48.1173,"lon":-1.6778,"image":"images/etapes/Rennes.png"},
-{"n":15,"name":"Nantes","lat":47.2184,"lon":-1.5536,"image":"images/etapes/Nantes.png"},
-{"n":16,"name":"La Rochelle","lat":46.1603,"lon":-1.1511,"image":"images/etapes/La Rochelle.png"},
-{"n":17,"name":"Bordeaux","lat":44.8378,"lon":-0.5792,"image":"images/etapes/Bordeaux.png"},
-{"n":18,"name":"Bayonne","lat":43.4933,"lon":-1.4748,"image":"images/etapes/Bayonne.png"},
-{"n":19,"name":"Pau","lat":43.2951,"lon":-0.3701,"image":"images/etapes/Pau.png"},
-{"n":20,"name":"Saint-Gaudens","lat":43.108,"lon":0.724,"image":"images/etapes/Saint-Gaudens.png"}
-];const KEY="tourPapaV1";let data=JSON.parse(localStorage.getItem(KEY)||'{"walks":[]}');
-let route=[],cum=[],stageKm=[],routeKm=0,marker;
-const map=L.map("map").setView([46.5,2.2],6);
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);
-stages.forEach((s,i)=>L.circleMarker([s.lat,s.lon],{radius:i==0||i==20?9:7,color:i==0||i==20?"#4f7d58":"#d95d39",fillColor:"#fff",fillOpacity:1,weight:3}).addTo(map).bindPopup("<b>Étape "+s.n+" — "+s.name+"</b>"));
-function dist(a,b){let R=6371,p=Math.PI/180,d1=(b[0]-a[0])*p,d2=(b[1]-a[1])*p,x=Math.sin(d1/2)**2+Math.cos(a[0]*p)*Math.cos(b[0]*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
-async function leg(a,b){let u=`https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=full&geometries=geojson`,r=await fetch(u);if(!r.ok)throw 0;let j=await r.json();return j.routes[0].geometry.coordinates.map(c=>[c[1],c[0]])}
-function icon(){return L.divIcon({className:"",html:'<div style="font-size:34px;filter:drop-shadow(0 2px 2px #0004)">🚶‍♂️</div>',iconSize:[38,38],iconAnchor:[19,34]})}
-async function build(){
-  const fixedKm=[
-    0,
-    95.70,
-    190.68,
-    340.72,
-    509.53,
-    708.66,
-    1171.95,
-    1277.97,
-    1543.85,
-    1876.53,
-    2226.64,
-    2424.37,
-    2677.80,
-    2806.72,
-    2989.66,
-    3102.65,
-    3239.13,
-    3424.06,
-    3607.61,
-    3718.77,
-    3809.95
-  ];
-
-  route=[];
-  cum=[];
-  stageKm=fixedKm;
-  routeKm=stageKm[20];
-
-  for(let i=0;i<stages.length;i++){
-    route.push([stages[i].lat,stages[i].lon]);
-    cum.push(stageKm[i]);
-  }
-
-  if(window.routeLine) map.removeLayer(window.routeLine);
-
-  window.routeLine=L.polyline(route,{
-    color:"#d95d39",
-    weight:5,
-    opacity:.8,
-    dashArray:"10 8"
-  }).addTo(map);
-
-  map.fitBounds(window.routeLine.getBounds(),{
-    padding:[30,30]
-  });
-
-  if(marker) marker.remove();
-
-  marker=L.marker(pos(0),{
-    icon:icon()
-  }).addTo(map);
-
-  document.getElementById("loading").style.display="none";
-
-  render();
-}
-function pos(k){
- if(k<=0)return route[0]; if(k>=routeKm)return route.at(-1);
- const geometryTotal=cum.at(-1)||routeKm, gk=k*(geometryTotal/routeKm);
- let i=1; while(i<cum.length&&cum[i]<gk)i++;
- let t=(gk-cum[i-1])/(cum[i]-cum[i-1]||1);
- return [route[i-1][0]+(route[i][0]-route[i-1][0])*t,
-         route[i-1][1]+(route[i][1]-route[i-1][1])*t]
-}
-function fmt(x){return x.toFixed(2).replace(".",",")}
-function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function render(){let total=data.walks.reduce((s,x)=>s+x.total,0),s=0;while(s<20&&total>=stageKm[s+1])s++;document.getElementById("stageImage").src = stages[s].image;
-document.getElementById("stageImage").alt = stages[s].name;
-document.getElementById("stageNumber").textContent = "Étape " + s;
-document.getElementById("stageName").textContent = stages[s].name;;document.getElementById("total").textContent=fmt(total);document.getElementById("stage").textContent=s+" / 20";document.getElementById("next").textContent=s<20?stages[s+1].name:"Saint-Gaudens";document.getElementById("remaining").textContent=s<20?"Encore environ "+fmt(stageKm[s+1]-total)+" km":"Tour terminé 🎉";document.getElementById("bar").style.width=Math.min(100,total/routeKm*100)+"%";if(marker)marker.setLatLng(pos(total));
-document.getElementById("log").innerHTML=data.walks.slice().reverse().map(x=>`<div><span>${x.date}</span><b>${fmt(x.total)} km</b></div>`).join("")||'<div class="muted" style="padding:8px 0">Aucune marche enregistrée.</div>';
-document.getElementById("list").innerHTML=stages.map((x,i)=>`<div class="item ${total>=stageKm[i]?"done":i==s?"current":""}"><span class="badge">${x.n}</span><span><b>${x.name}</b><br><span class="muted">${fmt(stageKm[i]||0)} km cumulés</span></span></div>`).join("")}
-function addWalk(){let a=+morning.value||0,b=+evening.value||0,t=Math.round((a+b)*100)/100;if(t<=0)return alert("Entre au moins une distance.");if(t>100)return alert("Vérifie les distances saisies.");data.walks.push({date:new Date().toLocaleDateString("fr-FR"),morning:a,evening:b,total:t});save();morning.value=evening.value="";render()}
-function undo(){if(data.walks.length){data.walks.pop();save();render()}}
-function resetData(){if(confirm("Effacer toutes les marches enregistrées ?")){data={walks:[]};save();render()}}
-build();
-</script></body></html>
+{n:0,name:"Saint-Gaudens",lat:43.108,lon:.724,image:"images/etapes/Saint-Gaudens.png"},{n:1,name:"Toulouse",lat:43.6047,lon:1.4442,image:"images/etapes/Toulouse.png"},{n:2,name:"Carcassonne",lat:43.213,lon:2.3491,image:"images/etapes/Carcassonne.png"},{n:3,name:"Montpellier",lat:43.6119,lon:3.8772,image:"images/etapes/Montpellier.png"},{n:4,name:"Marseille",lat:43.2965,lon:5.3698,image:"images/etapes/Marseille.png"},{n:5,name:"Nice",lat:43.7102,lon:7.262,image:"images/etapes/Nice.png"},{n:6,name:"Grenoble",lat:45.1885,lon:5.7245,image:"images/etapes/Grenoble.png"},{n:7,name:"Annecy",lat:45.8992,lon:6.1294,image:"images/etapes/Annecy.png"},{n:8,name:"Dijon",lat:47.322,lon:5.0415,image:"images/etapes/Dijon.png"},{n:9,name:"Strasbourg",lat:48.5734,lon:7.7521,image:"images/etapes/Strasbourg.png"},{n:10,name:"Reims",lat:49.2583,lon:4.0317,image:"images/etapes/Reims.png"},{n:11,name:"Lille",lat:50.6292,lon:3.0573,image:"images/etapes/Lille.png"},{n:12,name:"Rouen",lat:49.4432,lon:1.0993,image:"images/etapes/Rouen.png"},{n:13,name:"Caen",lat:49.1829,lon:-.3707,image:"images/etapes/Caen.png"},{n:14,name:"Rennes",lat:48.1173,lon:-1.6778,image:"images/etapes/Rennes.png"},{n:15,name:"Nantes",lat:47.2184,lon:-1.5536,image:"images/etapes/Nantes.png"},{n:16,name:"La Rochelle",lat:46.1603,lon:-1.1511,image:"images/etapes/La Rochelle.png"},{n:17,name:"Bordeaux",lat:44.8378,lon:-.5792,image:"images/etapes/Bordeaux.png"},{n:18,name:"Bayonne",lat:43.4933,lon:-1.4748,image:"images/etapes/Bayonne.png"},{n:19,name:"Pau",lat:43.2951,lon:-.3701,image:"images/etapes/Pau.png"},{n:20,name:"Saint-Gaudens",lat:43.108,lon:.724,image:"images/etapes/Saint-Gaudens.png"}];
+const stageKm=[0,95.70,190.68,340.72,509.53,708.66,1171.95,1277.97,1543.85,1876.53,2226.64,2424.37,2677.80,2806.72,2989.66,3102.65,3239.13,3424.06,3607.61,3718.77,3809.95],routeKm=stageKm.at(-1),storageKey="tourPapaV1",poses=["marche_profil.png","marche_face.png","lecture_carte.png","boit_eau.png","pouce_en_l_air.png","marche_dos.png","pause_bouteille.png","salut.png","victoire_bras_leves.png"];let data;try{data=JSON.parse(localStorage.getItem(storageKey))||{walks:[]};if(!Array.isArray(data.walks))data={walks:[]}}catch(e){data={walks:[]}}
+const route=stages.map(s=>[s.lat,s.lon]),map=L.map("map").setView([46.5,2.2],6);L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);stages.forEach((s,i)=>L.circleMarker([s.lat,s.lon],{radius:i===0||i===20?8:6,color:i===0||i===20?"#173f35":"#d8563f",fillColor:"#fffdf7",fillOpacity:1,weight:3}).addTo(map).bindPopup(`<b>Étape ${s.n} — ${s.name}</b>`));
+function papaIcon(poseIndex){return L.divIcon({className:"",html:`<img src="images/papa/${poses[poseIndex%poses.length]}" alt="" style="width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 3px 3px #0005)">`,iconSize:[64,64],iconAnchor:[32,58]})}const fullLine=L.polyline(route,{color:"#d3c2aa",weight:6,opacity:.85,dashArray:"8 9"}).addTo(map),doneLine=L.polyline([],{color:"#3f765e",weight:7,opacity:.95,lineCap:"round"}).addTo(map),marker=L.marker(route[0],{icon:papaIcon(0)}).addTo(map);map.fitBounds(fullLine.getBounds(),{padding:[28,28]});
+function fmt(v){return Number(v).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})}function save(){localStorage.setItem(storageKey,JSON.stringify(data))}function locationAt(km){if(km<=0)return{position:route[0],points:[route[0]]};if(km>=routeKm)return{position:route.at(-1),points:route.slice()};let i=1;while(i<stageKm.length&&stageKm[i]<km)i++;const t=(km-stageKm[i-1])/(stageKm[i]-stageKm[i-1]||1),position=[route[i-1][0]+(route[i][0]-route[i-1][0])*t,route[i-1][1]+(route[i][1]-route[i-1][1])*t];return{position,points:[...route.slice(0,i),position]}}
+function render(){const total=data.walks.reduce((sum,w)=>sum+Number(w.distance??w.total??0),0);let s=0;while(s<20&&total>=stageKm[s+1])s++;const progress=Math.min(100,total/routeKm*100),loc=locationAt(total),current=stages[s];document.querySelector("#total").textContent=fmt(total);document.querySelector("#stage").textContent=`${s} / 20`;document.querySelector("#percentage").textContent=`${progress.toLocaleString("fr-FR",{maximumFractionDigits:1})} % du tour`;document.querySelector("#bar").style.width=`${progress}%`;document.querySelector(".progress-track").setAttribute("aria-valuenow",Math.round(progress));document.querySelector("#next").textContent=s<20?stages[s+1].name:"Saint-Gaudens";document.querySelector("#remaining").textContent=s<20?`Encore ${fmt(Math.max(0,stageKm[s+1]-total))} km avant l’étape`:"Tour terminé, bravo Papa ! 🎉";document.querySelector("#stageImage").src=current.image;document.querySelector("#stageImage").alt=`Illustration de ${current.name}`;document.querySelector("#stageNumber").textContent=s===0?"Départ":`Étape ${s}`;document.querySelector("#stageName").textContent=current.name;marker.setLatLng(loc.position);marker.setIcon(papaIcon(data.walks.length));doneLine.setLatLngs(loc.points);document.querySelector("#log").innerHTML=data.walks.slice().reverse().map(w=>{const km=Number(w.distance??w.total??0),details=w.duration?`${w.session||"Marche"} · ${w.duration} min · ${Number(w.speed||km/(w.duration/60)).toLocaleString("fr-FR",{maximumFractionDigits:1})} km/h`:"Journée enregistrée";return`<div class="log-entry"><span>${w.date}<br><span class="muted">${details}</span></span><b>${fmt(km)} km</b></div>`}).join("")||'<div class="muted" style="padding:9px 0">Aucune marche enregistrée pour le moment.</div>';document.querySelector("#list").innerHTML=stages.map((x,i)=>{const state=i===s?"current":total>=stageKm[i]?"done":"";return`<div class="stage-item ${state}"><span class="badge">${x.n}</span><span><b>${x.name}</b><br><span class="muted">${fmt(stageKm[i])} km cumulés</span></span></div>`}).join("")}
+function updateSpeed(){const duration=Number(document.querySelector("#duration").value),distance=Number(document.querySelector("#distance").value),speed=duration>0&&distance>0?distance/(duration/60):0;document.querySelector("#speed").textContent=speed?`${speed.toLocaleString("fr-FR",{maximumFractionDigits:2})} km/h`:"— km/h"}function addWalk(){const duration=Number(document.querySelector("#duration").value),distance=Number(document.querySelector("#distance").value),heartRate=Number(document.querySelector("#heartRate").value),incline=Number(document.querySelector("#incline").value)||0,session=document.querySelector('input[name="session"]:checked').value;if(!duration||duration<=0)return alert("Entre la durée de la marche.");if(!distance||distance<=0)return alert("Entre la distance parcourue.");if(distance>100)return alert("Vérifie la distance saisie.");const speed=Math.round(distance/(duration/60)*100)/100;data.walks.push({date:new Date().toLocaleDateString("fr-FR"),session,duration,distance,heartRate:heartRate||"",incline,speed});save();["duration","distance","heartRate","incline"].forEach(id=>document.querySelector(`#${id}`).value="");updateSpeed();render()}function undo(){if(!data.walks.length)return;data.walks.pop();save();render()}function resetData(){if(!confirm("Effacer toutes les marches enregistrées ?"))return;data={walks:[]};save();render()}function exportWalks(){if(!data.walks.length)return alert("Ajoute d’abord une marche au suivi.");const rows=[["Date","Moment","Durée (min)","Distance (km)","Vitesse moyenne (km/h)","Rythme cardiaque (bpm)","Inclinaison (%)"],...data.walks.map(w=>[w.date,w.session||"",w.duration||"",w.distance??w.total??"",w.speed||"",w.heartRate||"",w.incline??""])],csv="\ufeff"+rows.map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(";")).join("\n"),url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");a.href=url;a.download="suivi-tour-de-france-papa.csv";a.click();URL.revokeObjectURL(url)}
+document.querySelector("#duration").addEventListener("input",updateSpeed);document.querySelector("#distance").addEventListener("input",updateSpeed);document.querySelector("#saveWalk").addEventListener("click",addWalk);document.querySelector("#undoWalk").addEventListener("click",undo);document.querySelector("#resetWalks").addEventListener("click",resetData);document.querySelector("#exportWalks").addEventListener("click",exportWalks);document.querySelector("#loading").hidden=true;render();
+</script>
+</body>
+</html>
