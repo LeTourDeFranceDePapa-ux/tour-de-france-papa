@@ -30,13 +30,19 @@ button.secondary{background:#ece3d3;color:#263238}.list{max-height:260px;overflo
 }
 
 .stage-card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:7px;
-  background:linear-gradient(90deg,#4f7d58,#e7a83b,#d95d39);
+  content:"✈  CARNET DE VOYAGE  •  LE TOUR DE FRANCE DE PAPA  ✈";
+  display:block;
+  position:relative;
+  z-index:5;
+  padding:10px;
+  background:#304c37;
+  color:#fffaf0;
+  text-align:center;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;.stage-card img{
+  position:relative;
+  z-index:2;
 }
 
 /* ===== CARTE ÉTAPE — CARNET DE VOYAGE ===== */
