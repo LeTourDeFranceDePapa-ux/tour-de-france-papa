@@ -67,9 +67,17 @@ body{background:radial-gradient(circle at 10% 0%,#ffd23f66,transparent 26rem),li
   .map-overlay{left:285px}
 }
 </style>
+<style>
+.hero-medallion{width:132px;height:132px;padding:18px;border:3px solid #ffd23f;background:#fffdf8e8;color:#082e5d;box-shadow:0 0 0 4px #082e5d,0 0 0 7px #ffd23f,0 9px 20px #001c3550;transform:rotate(8deg);font-family:"Nunito",sans-serif;font-size:.68rem;line-height:1.25;letter-spacing:.09em}
+.hero-medallion:before{content:"";position:absolute;inset:9px;border:2px dashed #f05245;border-radius:50%}
+.hero-medallion span{position:relative;z-index:1}
+.hero-medallion b{margin-bottom:3px;color:#f05245;font-size:1.05rem;letter-spacing:.04em}
+@media(max-width:1000px){.hero-medallion{width:108px;height:108px;padding:13px;font-size:.57rem}}
+@media(max-width:650px){.hero-medallion{width:84px;height:84px;padding:10px;font-size:.45rem}.hero-medallion:before{inset:6px}}
+</style>
 </head>
 <body>
-<header class="site-header hero-header"><div class="hero-mascot-wrap"><img class="hero-mascot" src="images/papa/papa-embleme.png" alt="Caricature de Papa en marche avec son bâton et son sac à dos"></div><div class="hero-copy"><span class="hero-kicker">Une aventure pas à pas</span><h1><span>Le Tour de France</span><em>de Papa</em></h1><p class="subtitle">Chaque pas te rapproche de l’aventure !</p><div class="hero-route"><i></i> 20 étapes • 3 823,82 km <i></i></div></div><div class="hero-stamps" aria-hidden="true"><span class="hero-stamp"><img src="images/etapes/Annecy.webp" alt=""></span><span class="hero-stamp"><img src="images/etapes/Carcassonne.webp" alt=""></span></div><div class="hero-medallion"><span><b>★</b>Aventures<br>et étapes<br>en famille</span></div></header>
+<header class="site-header hero-header"><div class="hero-mascot-wrap"><img class="hero-mascot" src="images/papa/papa-embleme.png" alt="Caricature de Papa en marche avec son bâton et son sac à dos"></div><div class="hero-copy"><span class="hero-kicker">Une aventure pas à pas</span><h1><span>Le Tour de France</span><em>de Papa</em></h1><p class="subtitle">Chaque pas te rapproche de l’aventure !</p><div class="hero-route"><i></i> 20 étapes • 3 823,82 km <i></i></div></div><div class="hero-stamps" aria-hidden="true"><span class="hero-stamp"><img src="images/etapes/Annecy.webp" alt=""></span><span class="hero-stamp"><img src="images/etapes/Carcassonne.webp" alt=""></span></div><div class="hero-medallion"><span><b>EN ROUTE PAPA !</b>Chaque pas<br>compte</span></div></header>
 <main class="app">
 <section class="card map-card" aria-label="Carte du parcours"><div id="map"></div><div class="map-overlay"><b>Parcours de Papa</b> · itinéraire routier<div class="map-legend"><span><i></i> parcouru</span><span><i class="remaining"></i> à venir</span></div></div><div id="loading" class="loading" role="status">🗺️ Préparation du parcours…</div></section>
 <aside class="card panel" aria-label="Suivi de la progression">
