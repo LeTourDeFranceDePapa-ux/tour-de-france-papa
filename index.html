@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173f35">
 <title>Le Tour de France de Papa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{--forest:#173f35;--green:#3f765e;--red:#d8563f;--gold:#e4a83d;--ink:#24312d;--muted:#66736d;--paper:#fffdf7;--canvas:#f3ecdf;--line:#e3d7c3;--shadow:0 16px 42px #3728141a}
@@ -25,9 +28,19 @@ details{margin-top:17px;border-top:1px solid var(--line)}summary{padding:13px 0 
 @media(max-width:700px){.stamp-grid{grid-template-columns:repeat(3,1fr)}.passport-pages{padding:13px}.passport-detail{grid-template-columns:1fr}.passport-detail img{height:170px}.postcard-photo img{height:190px}}
 </style>
 <style>.celebration-papa{width:120px;height:120px;margin:auto;background:url("images/papa/papa-caricature-sprites.png") right bottom/300% 300% no-repeat}</style>
+<style>
+body{font-family:"Nunito",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.site-header.hero-header{position:relative;max-width:1240px;min-height:226px;margin:20px auto 18px;padding:28px 210px 27px 270px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #d3bc97;border-radius:28px;background:linear-gradient(115deg,#fffaf0 0 68%,#efe1c7 68% 100%);box-shadow:0 18px 45px #49351520,isolation:isolate}
+.hero-header:before{content:"";position:absolute;z-index:-1;inset:12px;border:2px dashed #c8ad82;border-radius:20px;pointer-events:none}.hero-header:after{content:"";position:absolute;z-index:-1;left:39%;right:10%;bottom:31px;height:2px;background:repeating-linear-gradient(90deg,var(--red) 0 6px,transparent 6px 13px);opacity:.5;transform:rotate(-2deg)}
+.hero-mascot-wrap{position:absolute;left:25px;bottom:-62px;width:236px;height:294px;display:flex;align-items:flex-start;justify-content:center}.hero-mascot{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 9px #38281938);transform:rotate(-2deg);transform-origin:center bottom}
+.hero-copy{position:relative;z-index:2;text-align:center}.hero-kicker{display:inline-block;margin-bottom:5px;color:var(--red);font-size:.72rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase}.hero-header h1{margin:0;color:var(--forest);font-family:"Bree Serif",Georgia,serif;font-size:clamp(2.3rem,4.8vw,4.25rem);font-weight:400;line-height:.86;letter-spacing:-.035em;text-shadow:0 2px #fff}.hero-header h1 span,.hero-header h1 em{display:block}.hero-header h1 em{margin-top:8px;color:var(--red);font-size:.72em;font-style:normal;letter-spacing:.015em}.hero-header .subtitle{margin:13px 0 0;color:#55655f;font-size:1rem;font-weight:700}.hero-route{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;color:var(--forest);font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.hero-route i{width:64px;border-top:2px dotted var(--gold)}
+.hero-passport{position:absolute;z-index:2;right:35px;top:50%;width:140px;padding:15px 10px;border:3px double #d4b65b;border-radius:14px;background:#243b67;color:#fff;text-align:center;box-shadow:0 9px 20px #17233a34;transform:translateY(-50%) rotate(3deg)}.hero-passport strong{display:block;color:#f5d578;font-family:"Bree Serif",Georgia,serif;font-size:1.15rem;font-weight:400}.hero-passport span{display:block;margin-top:5px;font-size:.66rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.hero-passport b{display:grid;width:40px;height:40px;margin:9px auto 2px;place-items:center;border:2px solid #f5d578;border-radius:50%;font-size:1.15rem}
+@media(max-width:900px){.site-header.hero-header{min-height:210px;margin:14px 12px;padding:24px 155px 24px 205px}.hero-mascot-wrap{left:6px;bottom:-44px;width:205px;height:260px}.hero-passport{right:20px;width:120px}.hero-header h1{font-size:clamp(2rem,5.7vw,3.45rem)}}
+@media(max-width:650px){.site-header.hero-header{min-height:250px;margin:10px 10px 14px;padding:24px 18px 116px;align-items:flex-start;background:linear-gradient(150deg,#fffaf0 0 78%,#efe1c7 78% 100%)}.hero-header:after{left:32%;right:22%;bottom:29px}.hero-copy{width:100%}.hero-header h1{font-size:clamp(2.35rem,12vw,3.35rem)}.hero-header .subtitle{margin-top:10px;font-size:.86rem}.hero-route{font-size:.63rem}.hero-route i{width:34px}.hero-mascot-wrap{left:4px;bottom:-38px;width:130px;height:174px}.hero-passport{right:19px;top:auto;bottom:22px;width:106px;padding:8px 6px;transform:rotate(3deg)}.hero-passport strong{font-size:.9rem}.hero-passport span{font-size:.54rem}.hero-passport b{width:28px;height:28px;margin:5px auto 0;font-size:.85rem}}
+</style>
 </head>
 <body>
-<header class="site-header"><div class="brand"><div class="brand-mark" aria-hidden="true">🚶‍♂️</div><div><h1>Le Tour de France de Papa</h1><p class="subtitle">Chaque pas te mène un peu plus loin ❤️</p></div></div><div class="header-pill">🇫🇷 20 étapes • 3 809,95 km</div></header>
+<header class="site-header hero-header"><div class="hero-mascot-wrap"><img class="hero-mascot" src="images/papa/papa-embleme.png" alt="Caricature de Papa en marche avec son bâton et son sac à dos"></div><div class="hero-copy"><span class="hero-kicker">Une aventure pas à pas</span><h1><span>Le Tour de France</span><em>de Papa</em></h1><p class="subtitle">Chaque pas te mène un peu plus loin ❤️</p><div class="hero-route" aria-hidden="true"><i></i> Saint-Gaudens → Paris <i></i></div></div><div class="hero-passport"><strong>Carnet de route</strong><b aria-hidden="true">🇫🇷</b><span>20 étapes • 3 809,95 km</span></div></header>
 <main class="app">
 <section class="card map-card" aria-label="Carte du parcours"><div id="map"></div><div class="map-overlay"><b>Parcours de Papa</b> · du départ jusqu’à l’arrivée</div><div id="loading" class="loading" role="status">🗺️ Préparation du parcours…</div></section>
 <aside class="card panel" aria-label="Suivi de la progression">
