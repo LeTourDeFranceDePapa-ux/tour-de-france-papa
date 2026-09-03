@@ -39,34 +39,134 @@ button.secondary{background:#ece3d3;color:#263238}.list{max-height:260px;overflo
   background:linear-gradient(90deg,#4f7d58,#e7a83b,#d95d39);
 }
 
-.stage-card img{
-  width:100%;
-  height:150px;
-  object-fit:cover;
-  border-radius:12px;
-  margin-top:5px;
-  display:block;
+/* ===== CARTE ÉTAPE — CARNET DE VOYAGE ===== */
+
+.stage-card{
+  position:relative;
+  margin:18px 0 20px;
+  padding:0;
+  background:#f8f0df;
+  border:1px solid #d8c7aa;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:
+    0 10px 25px rgba(80,60,30,.14),
+    inset 0 0 0 4px rgba(255,255,255,.45);
+  transform:rotate(-0.4deg);
 }
+
+/* bandeau coloré en haut */
+
+.stage-card::before{
+  content:"✈  CARNET DE VOYAGE  •  LE TOUR DE FRANCE DE PAPA  ✈";
+  display:block;
+  padding:8px 10px;
+  background:#304c37;
+  color:#fffaf0;
+  text-align:center;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+
+/* petite décoration façon tampon */
+
+.stage-card::after{
+  content:"❤️";
+  position:absolute;
+  right:13px;
+  top:42px;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  background:#d95d39;
+  color:white;
+  border-radius:50%;
+  font-size:17px;
+  transform:rotate(8deg);
+  box-shadow:0 3px 8px rgba(0,0,0,.18);
+}
+
+/* image de la ville */
+
+.stage-card img{
+  width:calc(100% - 22px);
+  height:185px;
+  object-fit:cover;
+  display:block;
+  margin:14px 11px 0;
+  border:7px solid #fffdf7;
+  border-bottom-width:20px;
+  border-radius:3px;
+  box-shadow:0 5px 12px rgba(60,45,25,.20);
+  filter:saturate(1.08) contrast(1.03);
+}
+
+/* texte sous la photo */
 
 .stage-caption{
+  position:relative;
   text-align:center;
-  padding:9px 5px 3px;
+  padding:13px 12px 17px;
 }
 
-.stage-caption span{
+/* ligne décorative */
+
+.stage-caption::before{
+  content:"✦  ✦  ✦";
   display:block;
+  color:#d95d39;
   font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  color:#8a7760;
-  font-weight:700;
+  letter-spacing:5px;
+  margin-bottom:4px;
 }
+
+/* numéro de l'étape */
+
+.stage-caption span{
+  display:inline-block;
+  padding:5px 12px;
+  background:#d95d39;
+  color:white;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  box-shadow:0 2px 5px rgba(0,0,0,.12);
+}
+
+/* nom de la ville */
 
 .stage-caption strong{
   display:block;
-  font:700 25px Georgia,serif;
+  margin-top:7px;
   color:#304c37;
-  margin-top:2px;
+  font:700 29px Georgia,serif;
+  letter-spacing:.3px;
+}
+
+/* petit sous-texte */
+
+.stage-caption strong::after{
+  content:"Une nouvelle étape de l'aventure ❤️";
+  display:block;
+  margin-top:4px;
+  color:#887861;
+  font:italic 12px Georgia,serif;
+  letter-spacing:.3px;
+}
+
+/* adaptation téléphone */
+
+@media(max-width:900px){
+  .stage-card img{
+    height:200px;
+  }
+
+  .stage-caption strong{
+    font-size:27px;
 }
 </style></head><body>
 <header><h1>🇫🇷 Le Tour de France de Papa ❤️</h1><div class="sub">Chaque pas te mène plus loin !</div></header>
