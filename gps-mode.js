@@ -43,7 +43,27 @@ function start(){state.running=true;state.paused=false;state.start=Date.now();st
 function pause(){if(!state.paused){state.elapsed=elapsed();state.paused=true;state.last=null;if(state.watch!==null)navigator.geolocation.clearWatch(state.watch);state.watch=null;$("#gpsPause").textContent="Reprendre";$("#gpsStatus").classList.remove("tracking");$("#gpsStatus span").textContent="Marche en pause"}else{state.paused=false;state.start=Date.now();$("#gpsPause").textContent="Pause";watch()}draft();renderGps()}
 function finish(){if(!state.running)return;if(!state.paused)state.elapsed=elapsed();state.running=false;state.paused=true;if(state.watch!==null)navigator.geolocation.clearWatch(state.watch);clearInterval(state.timer);state.wake?.release().catch(()=>{});$("#pocketLock").hidden=true;$("#summaryDuration").textContent=Math.max(1,Math.round(state.elapsed/60000))+" min";$("#summaryDistance").textContent=km().toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" km";$("#summarySpeed").textContent=speed().toLocaleString("fr-FR",{minimumFractionDigits:1,maximumFractionDigits:1})+" km/h";$("#gpsSummary").showModal()}
 function reset(){localStorage.removeItem(draftKey);Object.assign(state,{watch:null,running:false,paused:false,last:null,meters:0,start:0,elapsed:0,timer:null,wake:null});$("#gpsStart").hidden=false;$("#gpsPause").hidden=true;$("#gpsPocket").hidden=true;$("#gpsStop").hidden=true;$("#gpsStatus").classList.remove("tracking");$("#gpsStatus span").textContent="GPS prêt à démarrer";renderGps()}
-async function validate(){const distance=Math.round(km()*100)/100,duration=Math.max(1,Math.round(state.elapsed/60000));if(distance<=0)return alert("Aucune distance GPS exploitable n’a été mesurée.");if(distance>30)return alert("Cette marche dépasse 30 km.");const from=totalDistance(),before=currentStageFor(from),avg=Math.round(distance/(duration/60)*100)/100;data.walks.push({date:new Date().toLocaleDateString("fr-FR"),session:"Marche dehors",duration,distance,heartRate:"",incline:0,speed:avg,source:"GPS"});save();$("#gpsSummary").close();reset();animationRunning=true;try{await animateWalk(from,totalDistance(),(data.walks.length-1)%papaActions.length)}finally{animationRunning=false;render()}const after=currentStageFor(totalDistance());if(after>before)celebrate(after)}
+async function validate(){
+  const distance=Math.round(km()*100)/100,duration=Math.max(1,Math.round(state.elapsed/60000));
+  if(distance<=0)return alert("Aucune distance GPS exploitable n’a été mesurée.");
+  if(distance>30)return alert("Cette marche dépasse 30 km.");
+  const button=$("#gpsValidate");button.disabled=true;button.textContent="Ajout en cours…";
+  try{
+    let saved;
+    try{saved=JSON.parse(localStorage.getItem("tourPapaV1"))||{walks:[]}}catch(_){saved={walks:[]}}
+    if(!Array.isArray(saved.walks))saved.walks=[];
+    const avg=Math.round(distance/(duration/60)*100)/100;
+    saved.walks.push({date:new Date().toLocaleDateString("fr-FR"),session:"Marche dehors",duration,distance,heartRate:"",incline:0,speed:avg,source:"GPS"});
+    localStorage.setItem("tourPapaV1",JSON.stringify(saved));
+    localStorage.removeItem(draftKey);
+    $("#gpsSummary").close();
+    setTimeout(()=>window.location.reload(),180);
+  }catch(error){
+    console.error("Ajout GPS impossible",error);
+    button.disabled=false;button.textContent="Ajouter au parcours";
+    alert("La marche n’a pas pu être ajoutée. Réessaie une fois.");
+  }
+}
 function mode(out){$("#indoorTab").classList.toggle("active",!out);$("#outdoorTab").classList.toggle("active",out);manual.forEach(el=>el.hidden=out);panel.hidden=!out}
 $("#indoorTab").onclick=()=>mode(false);$("#outdoorTab").onclick=()=>mode(true);$("#gpsStart").onclick=start;$("#gpsPause").onclick=pause;$("#gpsStop").onclick=finish;$("#gpsPocket").onclick=()=>{wake();$("#pocketLock").hidden=false;document.documentElement.requestFullscreen?.().catch(()=>{})};$("#gpsDiscard").onclick=()=>{$("#gpsSummary").close();reset()};$("#gpsValidate").onclick=validate;
 let hold;const unlock=$("#pocketUnlock");const cancel=()=>{clearTimeout(hold);hold=null;unlock.classList.remove("holding")};const completeUnlock=()=>{hold=null;$("#pocketLock").hidden=true;unlock.classList.remove("holding");document.exitFullscreen?.().catch(()=>{})};unlock.addEventListener("pointerdown",event=>{event.preventDefault();cancel();try{unlock.setPointerCapture(event.pointerId)}catch(_){}unlock.classList.add("holding");hold=setTimeout(completeUnlock,3000)});["pointerup","pointercancel"].forEach(name=>unlock.addEventListener(name,event=>{event.preventDefault();cancel()}));unlock.addEventListener("contextmenu",event=>event.preventDefault());unlock.addEventListener("selectstart",event=>event.preventDefault());
