@@ -545,6 +545,47 @@ body{background:radial-gradient(circle at 10% 0%,#ffd23f66,transparent 26rem),li
   }
 }
 </style>
+
+<style>
+/* Papa déborde du carnet et message des pas sur toutes les versions */
+.journey-tools .steps-dashboard small{
+  position:relative!important;
+  left:auto!important;
+  bottom:auto!important;
+  display:block;
+  max-width:118px!important;
+  margin:7px 0 0!important;
+  line-height:1.15;
+}
+.journey-tools .download-dashboard{
+  overflow:visible!important;
+}
+.journey-tools .download-dashboard img{
+  position:relative;
+  z-index:3;
+  transform:translate(-8px,-7px) scale(1.18);
+  transform-origin:left bottom;
+}
+.journey-tools .download-dashboard>div{
+  position:relative;
+  z-index:4;
+}
+@media(max-width:700px){
+  .journey-tools .download-dashboard img{
+    width:50%!important;
+    height:178px!important;
+    margin:-12px -4px -9px -10px!important;
+    transform:translate(-5px,-9px) scale(1.18);
+  }
+}
+@media(max-width:430px){
+  .journey-tools .download-dashboard img{
+    width:52%!important;
+    height:184px!important;
+    transform:translate(-5px,-12px) scale(1.2);
+  }
+}
+</style>
 </head>
 <body>
 <header class="site-header hero-header"><img class="hero-banner-art" src="images/papa/banniere-voyage-v2.webp" alt=""><h1 class="visually-hidden">Le Tour de France de Papa</h1><div class="mobile-hero" aria-hidden="true"><img src="images/papa/papa-embleme.png" alt=""><div class="mobile-hero-copy"><small>Une aventure pas à pas</small><strong>Le Tour de France<em>de Papa</em></strong><span>20 étapes • 3 823,82 km</span></div><b>EN ROUTE<br>PAPA !</b></div></header>
