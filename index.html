@@ -84,9 +84,19 @@ body{background:radial-gradient(circle at 10% 0%,#ffd23f66,transparent 26rem),li
 @media(max-width:430px){.dashboard-grid{grid-template-columns:1fr}.week-dashboard,.download-dashboard{grid-column:auto}}
 </style>
 <style>.total-dashboard:after{position:absolute}.download-dashboard>div{position:relative;z-index:1;min-width:0;flex:1}.download-dashboard strong{color:#fff}</style>
+<style>
+/* Bannière illustrée validée */
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.site-header.hero-header{position:relative;z-index:120;width:calc(100% - 24px);max-width:1280px;height:min(420px,calc((100vw - 24px)*.3278));min-height:0;margin:10px auto 16px;padding:0;display:block;overflow:visible;border:0;border-radius:0;background:none;box-shadow:none;isolation:auto}
+.site-header.hero-header:before,.site-header.hero-header:after{display:none}
+.hero-banner-art{position:absolute;z-index:5;inset:0 auto auto 0;width:100%;height:auto;display:block;filter:drop-shadow(0 12px 13px #052f5840);pointer-events:none}
+.app{position:relative;z-index:1}
+@media(min-width:901px){.map-overlay{left:285px}}
+@media(max-width:650px){.site-header.hero-header{width:calc(100% - 10px);height:calc((100vw - 10px)*.3278);margin:5px auto 10px}.map-overlay{left:10px}}
+</style>
 </head>
 <body>
-<header class="site-header hero-header"><div class="hero-mascot-wrap"><img class="hero-mascot" src="images/papa/papa-embleme.png" alt="Caricature de Papa en marche avec son bâton et son sac à dos"></div><div class="hero-copy"><span class="hero-kicker">Une aventure pas à pas</span><h1><span>Le Tour de France</span><em>de Papa</em></h1><p class="subtitle">Chaque pas te rapproche de l’aventure !</p><div class="hero-route"><i></i> 20 étapes • 3 823,82 km <i></i></div></div><div class="hero-stamps" aria-hidden="true"><span class="hero-stamp"><img src="images/etapes/Annecy.webp" alt=""></span><span class="hero-stamp"><img src="images/etapes/Carcassonne.webp" alt=""></span></div><div class="hero-medallion"><span><b>EN ROUTE PAPA !</b>Chaque pas<br>compte</span></div></header>
+<header class="site-header hero-header"><img class="hero-banner-art" src="images/papa/banniere-voyage-v2.webp" alt=""><h1 class="visually-hidden">Le Tour de France de Papa</h1></header>
 <main class="app">
 <section class="card map-card" aria-label="Carte du parcours"><div id="map"></div><div class="map-overlay"><b>Parcours de Papa</b> · itinéraire routier<div class="map-legend"><span><i></i> parcouru</span><span><i class="remaining"></i> à venir</span></div></div><div id="loading" class="loading" role="status">🗺️ Préparation du parcours…</div></section>
 <aside class="card panel" aria-label="Suivi de la progression">
