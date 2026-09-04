@@ -628,6 +628,48 @@ body{background:radial-gradient(circle at 10% 0%,#ffd23f66,transparent 26rem),li
   }
 }
 </style>
+
+<style>
+/* Centrage du bouton passeport et titre mobile agrandi */
+@media(max-width:700px){
+  .journey-tools-head{
+    height:126px!important;
+    min-height:126px!important;
+    margin-bottom:7px!important;
+  }
+  .journey-title-art{
+    width:auto!important;
+    max-width:100%!important;
+    height:122px!important;
+    object-fit:contain;
+    object-position:left center;
+  }
+  .passport-dashboard button{
+    left:50%!important;
+    right:auto!important;
+    bottom:42px!important;
+    width:34%!important;
+    transform:translateX(-50%)!important;
+  }
+  .passport-dashboard button:hover,
+  .passport-dashboard button:focus-visible{
+    transform:translate(-50%,-2px)!important;
+  }
+}
+@media(max-width:430px){
+  .journey-tools-head{
+    height:120px!important;
+    min-height:120px!important;
+  }
+  .journey-title-art{
+    height:116px!important;
+  }
+  .passport-dashboard button{
+    bottom:50px!important;
+    width:32%!important;
+  }
+}
+</style>
 </head>
 <body>
 <header class="site-header hero-header"><img class="hero-banner-art" src="images/papa/banniere-voyage-v2.webp" alt=""><h1 class="visually-hidden">Le Tour de France de Papa</h1><div class="mobile-hero" aria-hidden="true"><img src="images/papa/papa-embleme.png" alt=""><div class="mobile-hero-copy"><small>Une aventure pas à pas</small><strong>Le Tour de France<em>de Papa</em></strong><span>20 étapes • 3 823,82 km</span></div><b>EN ROUTE<br>PAPA !</b></div></header>
