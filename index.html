@@ -94,14 +94,48 @@ body{background:radial-gradient(circle at 10% 0%,#ffd23f66,transparent 26rem),li
 @media(min-width:901px){.map-overlay{left:390px}}
 @media(max-width:650px){.site-header.hero-header{width:calc(100% - 10px);height:calc((100vw - 10px)*.3278);margin:5px auto 10px}.map-overlay{left:10px}}
 </style>
+<style>
+/* Colonne carnet de bord — maquette validée */
+.panel{position:relative;padding:24px 18px 18px 28px;overflow:visible;border:5px solid #082e5d;border-radius:27px;background:#82dfe4;box-shadow:inset 0 0 0 3px #ffd23f,inset 0 0 0 7px #1e6f91,0 18px 38px #052f5838}
+.panel:before{content:"";position:absolute;z-index:6;left:-18px;top:74px;width:34px;height:70%;pointer-events:none;background:radial-gradient(ellipse at center,#fff5d8 0 19%,#082e5d 21% 31%,#7597a5 33% 42%,transparent 44%) center top/34px 138px repeat-y;filter:drop-shadow(2px 3px 2px #052f5840)}
+.panel:after{content:"🎒";position:absolute;z-index:7;left:-17px;bottom:-23px;width:66px;height:66px;display:grid;place-items:center;border:4px solid #fff5d8;border-radius:20px;background:#fffdf8;box-shadow:0 6px 12px #052f5840;font-size:2.65rem;transform:rotate(-8deg)}
+.progress-card{position:relative;margin:0 0 15px;padding:17px 15px 14px;border:2px solid #fff;border-radius:18px;background:#fffaf0;box-shadow:0 7px 0 #082e5d18,0 10px 20px #052f5824}
+.progress-card:after{content:"🥾";position:absolute;left:56%;top:23px;font-size:1.75rem;transform:rotate(-10deg)}
+.progress-card .panel-heading{padding-right:2px}.progress-card .eyebrow{color:#082e5d;letter-spacing:.075em}.progress-card .total{color:#082e5d;font-size:2.25rem}.progress-card .stage-count{color:#082e5d;font-size:1.75rem}
+.progress-card .progress-track{height:14px;margin:15px 0 10px;border:2px solid #1597aa;background:#d8eff0;box-shadow:inset 0 2px 3px #052f5820}.progress-card .progress-bar{background:linear-gradient(90deg,#f05245 0 3%,#48c7d2 3% 72%,#10a88f)}
+.progress-card .progress-meta{color:#173a5e;font-weight:900}
+.panel .next{position:relative;margin:0 1px 18px;padding:39px 82px 20px 29px;overflow:visible;border:2px dashed #d69a19;border-radius:13px;background:#ffd94f;box-shadow:0 6px 0 #c8951f,0 11px 18px #052f5828;clip-path:polygon(6% 0,100% 0,100% 100%,6% 100%,0 50%)}
+.panel .next:before{content:"";position:absolute;left:10px;top:50%;width:10px;height:10px;border:3px solid #b97817;border-radius:50%;background:#fff5d8;transform:translateY(-50%)}
+.panel .next:after{content:"📍  · · ·";position:absolute;right:16px;top:47px;width:54px;color:#082e5d;font-size:1.45rem;line-height:1.4;transform:rotate(-6deg)}
+.panel .next .eyebrow{left:27px;top:-10px;padding:7px 17px;border-radius:4px;background:#f05245;box-shadow:3px 4px 0 #a93430;color:#fff;font-size:.7rem;transform:rotate(-2deg)}
+.panel .next strong{margin:3px 0 3px;color:#082e5d;font-size:2rem;line-height:1}.panel .next .muted{color:#5f4817;font-size:.79rem}
+.panel .journal-card{margin:0 0 20px;border:3px solid #fff;border-radius:17px;background:#fff8e8;box-shadow:0 7px 0 #082e5d20,0 12px 20px #052f5827;transform:none}
+.panel .journal-card:before{top:40px;width:82px;height:22px;background:#ead7a9db;box-shadow:0 2px 4px #052f5830;transform:translateX(-50%) rotate(4deg)}
+.panel .stage-ribbon{padding:10px 8px;border-radius:8px 8px 0 0;background:#082e5d;box-shadow:-7px 4px 0 #061f3e,7px 4px 0 #061f3e;color:#fff5d8;font-size:.59rem}
+.panel .stage-card:after{right:10px;top:47px;border:3px solid #fff;background:#f05245}
+.panel .stage-card img{height:188px;margin-top:16px;border:7px solid #fff;border-bottom-width:13px}
+.panel .stage-caption{padding:9px 15px 9px}.panel .postcard-meta{gap:13px}.panel .stage-caption strong{color:#082e5d;font-family:"Bree Serif",Georgia,serif;font-size:1.75rem}.panel .travel-copy{border-color:#d1b784}.panel .travel-copy p{color:#173a5e}.panel .encouragement{color:#082e5d!important}
+.panel .dotted-route{position:relative;height:33px;margin:0 15px 8px;background-image:radial-gradient(circle,#b7925d 2px,transparent 2.5px);background-size:14px 6px}
+.panel .dotted-route:before{content:"🩴  🩴";position:absolute;left:4px;top:1px;color:#1597aa;font-size:1.05rem;letter-spacing:-6px;transform:rotate(-12deg)}
+.panel .dotted-route:after{content:"🧭";position:absolute;right:-5px;bottom:-7px;font-size:2.25rem;filter:drop-shadow(0 3px 2px #052f5830)}
+.panel .walk-form{position:relative;margin:0;padding:0 14px 14px;border:3px solid #fff;border-radius:17px;background:#fffaf0;box-shadow:0 7px 0 #082e5d20,0 12px 20px #052f5827}
+.panel .walk-form:after{content:"📎";position:absolute;z-index:3;right:-10px;top:-17px;font-size:2.5rem;transform:rotate(10deg)}
+.panel .walk-form .section-title{margin:0 -14px 13px;padding:13px 16px;border-radius:14px 14px 0 0;background:#082e5d;color:#fff5d8;text-align:center;letter-spacing:.04em}
+.panel .session-switch{gap:0}.panel .session-switch label{border-color:#d3c5a9;border-radius:0;background:#fffdf8;color:#082e5d}.panel .session-switch label:first-of-type{border-radius:9px 0 0 9px}.panel .session-switch label:last-of-type{border-radius:0 9px 9px 0}.panel .session-switch input:checked+label{border-color:#e1a91d;background:#ffd94f;box-shadow:inset 0 0 0 1px #e1a91d}
+.panel .input-row input{border:2px solid #c9d2d1;background:#fff}.panel .speed-result{border:2px solid #dfa91d;background:#ffe27a}
+.panel #saveWalk{background:#f05245;box-shadow:0 5px 0 #b73530;font-size:.87rem;letter-spacing:.035em}.panel #saveWalk:hover{background:#d94138}
+.panel .button-row .secondary{border:1px solid #b4d0d7;background:#dff2f3;color:#082e5d}
+@media(max-width:960px){.panel{padding-left:27px}.panel:before{left:-16px}.panel:after{left:-12px}}
+@media(max-width:560px){.panel{padding:18px 12px 16px 20px;border-width:4px}.panel:before{left:-15px;width:28px;background-size:28px 120px}.progress-card:after{font-size:1.35rem}.panel .next{padding-right:65px}.panel .next strong{font-size:1.65rem}.panel:after{width:52px;height:52px;font-size:2rem}}
+</style>
 </head>
 <body>
 <header class="site-header hero-header"><img class="hero-banner-art" src="images/papa/banniere-voyage-v2.webp" alt=""><h1 class="visually-hidden">Le Tour de France de Papa</h1></header>
 <main class="app">
 <section class="card map-card" aria-label="Carte du parcours"><div id="map"></div><div class="map-overlay"><b>Parcours de Papa</b> · itinéraire routier<div class="map-legend"><span><i></i> parcouru</span><span><i class="remaining"></i> à venir</span></div></div><div id="loading" class="loading" role="status">🗺️ Préparation du parcours…</div></section>
 <aside class="card panel" aria-label="Suivi de la progression">
-<div class="panel-heading"><div><div class="eyebrow">Distance parcourue</div><div class="total"><span id="total">0,00</span> <small>km</small></div></div><div><div class="eyebrow">Étape</div><div id="stage" class="stage-count">0 / 20</div></div></div>
-<div class="progress-track" role="progressbar" aria-label="Progression du tour" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bar" class="progress-bar"></div></div><div class="progress-meta"><span id="percentage">0 % du tour</span><span>3 823,82 km</span></div>
+<div class="progress-card"><div class="panel-heading"><div><div class="eyebrow">Distance parcourue</div><div class="total"><span id="total">0,00</span> <small>km</small></div></div><div><div class="eyebrow">Étape</div><div id="stage" class="stage-count">0 / 20</div></div></div>
+<div class="progress-track" role="progressbar" aria-label="Progression du tour" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bar" class="progress-bar"></div></div><div class="progress-meta"><span id="percentage">0 % du tour</span><span>3 823,82 km</span></div></div>
 <div class="next"><div class="eyebrow">Prochaine étape</div><strong id="next">Toulouse</strong><div id="remaining" class="muted">Calcul en cours…</div></div>
 <div class="stage-card journal-card"><div class="stage-ribbon">CARNET DE VOYAGE • LE TOUR DE PAPA</div><div class="postcard-photo"><img id="stageImage" src="images/etapes/Saint-Gaudens.png" alt="Saint-Gaudens"></div><div class="stage-caption"><div class="postcard-meta"><span id="stageNumber">Départ</span><b class="unlock-stamp">Étape débloquée</b></div><strong id="stageName">Saint-Gaudens</strong><div class="travel-copy"><p id="anecdote"></p><p id="encouragement" class="encouragement"></p></div></div><div class="dotted-route"></div></div>
 <div class="walk-form"><div class="section-title"><span aria-hidden="true">👟</span> Ajouter ma marche</div>
