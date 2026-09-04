@@ -261,6 +261,14 @@ body{background:radial-gradient(circle at 10% 0%,#ffd23f66,transparent 26rem),li
 }
 @media(prefers-reduced-motion:reduce){.walk-animation-stage img{animation:none!important}.walk-animation-stage{transition:none}}
 </style>
+<style>
+/* Rétablissement de la bannière originale sur mobile */
+@media(max-width:650px){
+  .site-header.hero-header{width:calc(100% - 10px);height:calc((100vw - 10px)*.3278);min-height:0;margin:5px auto 10px;padding:0;overflow:visible;border:0;border-radius:0;background:none;box-shadow:none}
+  .hero-banner-art{display:block}
+  .mobile-hero{display:none}
+}
+</style>
 </head>
 <body>
 <header class="site-header hero-header"><img class="hero-banner-art" src="images/papa/banniere-voyage-v2.webp" alt=""><h1 class="visually-hidden">Le Tour de France de Papa</h1><div class="mobile-hero" aria-hidden="true"><img src="images/papa/papa-embleme.png" alt=""><div class="mobile-hero-copy"><small>Une aventure pas à pas</small><strong>Le Tour de France<em>de Papa</em></strong><span>20 étapes • 3 823,82 km</span></div><b>EN ROUTE<br>PAPA !</b></div></header>
