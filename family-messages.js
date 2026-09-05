@@ -16,7 +16,7 @@
     ]
   };
 
-  const storageKey = "tourPapaFamilyLettersV1";
+  const storageKey = "tourPapaFamilyLettersV2";
   const senderKey = "tourPapaFamilySenderV1";
   const familyMode = new URLSearchParams(location.search).get("famille") === "1";
   let letters = readLetters();
