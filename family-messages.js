@@ -16,7 +16,7 @@
     ]
   };
 
-  const storageKey = "tourPapaFamilyLettersV2";
+  const storageKey = "tourPapaFamilyLettersV1";
   const senderKey = "tourPapaFamilySenderV1";
   const familyMode = new URLSearchParams(location.search).get("famille") === "1";
   let letters = readLetters();
@@ -59,12 +59,32 @@
     @media(prefers-reduced-motion:reduce){.letter-pigeon.has-mail img{animation:none}}
   `;
   document.head.appendChild(style);
+  const layoutStyle = document.createElement("style");
+  layoutStyle.textContent = `.distance-steps{margin-top:8px;color:#765b1b;font-size:.72rem;font-weight:900}.distance-steps strong{display:inline!important;margin:0!important;color:#173a5e!important;font-size:.86rem!important}.messages-dashboard{position:relative;min-height:190px;padding:8px!important;overflow:visible!important;background:linear-gradient(160deg,#d7f3f1,#fff4ca)!important;border:2px solid #73cbd0!important}.messages-dashboard:after{display:none!important}.messages-dashboard .letter-pigeon{position:relative!important;left:auto!important;top:auto!important;width:100%!important;min-height:170px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transform:none!important}.messages-dashboard .letter-pigeon:hover{transform:translateY(-4px) rotate(1deg)!important}.messages-dashboard .letter-pigeon img{width:142px!important;height:112px!important}.messages-dashboard .letter-pigeon span{margin:-5px auto 0!important}.messages-dashboard .letter-count{right:calc(50% - 72px)!important;top:12px!important}@media(max-width:700px){.journey-tools .messages-dashboard{order:2;grid-column:2;min-height:168px}.messages-dashboard .letter-pigeon{min-height:150px!important}.messages-dashboard .letter-pigeon img{width:112px!important;height:88px!important}.journey-tools .progress-card{min-height:168px}}@media(max-width:430px){.journey-tools .messages-dashboard{width:76%;grid-column:1;justify-self:center;min-height:150px}.messages-dashboard .letter-pigeon{min-height:132px!important}}`;
+  document.head.appendChild(layoutStyle);
+
+  const stepsCard = document.querySelector(".steps-dashboard");
+  const stepsValue = document.querySelector("#todaySteps");
+  const distanceTotal = document.querySelector(".moved-progress .total");
+  if (stepsValue && distanceTotal) {
+    const stepsLine = document.createElement("div");
+    stepsLine.className = "distance-steps";
+    stepsLine.append("Aujourd’hui · ", stepsValue);
+    distanceTotal.insertAdjacentElement("afterend", stepsLine);
+  }
+  if (stepsCard) {
+    stepsCard.replaceChildren();
+    stepsCard.classList.remove("steps-dashboard");
+    stepsCard.classList.add("messages-dashboard");
+    stepsCard.id = "pigeonDashboard";
+    stepsCard.setAttribute("aria-label", "Messagerie de Papa");
+  }
 
   const button = document.createElement("button");
   button.type = "button";
   button.className = "letter-pigeon";
   button.setAttribute("aria-haspopup", "dialog");
-  const pigeonHome = document.querySelector(".journey-tools");
+  const pigeonHome = document.querySelector("#pigeonDashboard") || document.querySelector(".journey-tools");
   (pigeonHome || document.body).appendChild(button);
 
   const mode = document.createElement("div");
