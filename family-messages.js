@@ -3,16 +3,16 @@
 
   const ASSET_ROOT = "images/messages/";
   const assets = {
-    pigeonWaiting: ASSET_ROOT + "pigeon-attente.png",
-    pigeonFlying: ASSET_ROOT + "pigeon-message.png",
+    pigeonWaiting: ASSET_ROOT + "pigeon-attente.webp",
+    pigeonFlying: ASSET_ROOT + "pigeon-message.webp",
     stickers: [
-      ["coeur", "Avec tout mon cœur", "sticker-coeur.png"],
-      ["transpire", "Ouf, ça chauffe !", "sticker-transpire.png"],
-      ["rire", "Mort de rire", "sticker-rire.png"],
-      ["muscles", "Super motivé", "sticker-muscles.png"],
-      ["sandales", "Les sandales en feu", "sticker-sandales-feu.png"],
-      ["etonne", "Quelle surprise !", "sticker-etonne.png"],
-      ["pouces", "Double pouce !", "sticker-deux-pouces.png"]
+      ["coeur", "Avec tout mon cœur", "sticker-coeur.webp"],
+      ["transpire", "Ouf, ça chauffe !", "sticker-transpire.webp"],
+      ["rire", "Mort de rire", "sticker-rire.webp"],
+      ["muscles", "Super motivé", "sticker-muscles.webp"],
+      ["sandales", "Les sandales en feu", "sticker-sandales-feu.webp"],
+      ["etonne", "Quelle surprise !", "sticker-etonne.webp"],
+      ["pouces", "Double pouce !", "sticker-deux-pouces.webp"]
     ]
   };
 
