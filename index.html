@@ -848,8 +848,8 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   let automaticFlow=false;
   const closeReward=()=>{
     if(reward.open)reward.close();
-    localStorage.setItem("toulouseRewardSeen202610","1");
-    if(automaticFlow&&localStorage.getItem("toulouseChallengeSeen202610")!=="1"){
+    localStorage.setItem("toulouseRewardSeen202610v2","1");
+    if(automaticFlow&&localStorage.getItem("toulouseChallengeSeen202610v2")!=="1"){
       automaticFlow=false;
       challenge.showModal();
     }
@@ -861,10 +861,10 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   document.getElementById("openToulouseProgram").addEventListener("click",()=>program.showModal());
   document.getElementById("closeToulouseProgram").addEventListener("click",()=>program.close());
   program.addEventListener("click",event=>{if(event.target===program)program.close()});
-  document.getElementById("closeToulouseChallenge").addEventListener("click",()=>{localStorage.setItem("toulouseChallengeSeen202610","1");challenge.close()});
-  challenge.addEventListener("cancel",()=>localStorage.setItem("toulouseChallengeSeen202610","1"));
-  challenge.addEventListener("click",event=>{if(event.target===challenge){localStorage.setItem("toulouseChallengeSeen202610","1");challenge.close()}});
-  if(localStorage.getItem("toulouseRewardSeen202610")!=="1"){
+  document.getElementById("closeToulouseChallenge").addEventListener("click",()=>{localStorage.setItem("toulouseChallengeSeen202610v2","1");challenge.close()});
+  challenge.addEventListener("cancel",()=>localStorage.setItem("toulouseChallengeSeen202610v2","1"));
+  challenge.addEventListener("click",event=>{if(event.target===challenge){localStorage.setItem("toulouseChallengeSeen202610v2","1");challenge.close()}});
+  if(localStorage.getItem("toulouseRewardSeen202610v2")!=="1"){
     automaticFlow=true;
     setTimeout(()=>reward.showModal(),500);
   }
