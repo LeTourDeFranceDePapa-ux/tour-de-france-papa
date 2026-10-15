@@ -842,14 +842,12 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   const reward=document.getElementById("toulouseRewardDialog");
   const program=document.getElementById("toulouseProgramDialog");
   const challenge=document.getElementById("toulouseChallengeDialog");
-  const reachedToulouse=typeof totalDistance==="function"&&totalDistance()>=95.70;
-  if(!reachedToulouse)return;
   shortcut.hidden=false;
   let automaticFlow=false;
   const closeReward=()=>{
     if(reward.open)reward.close();
-    localStorage.setItem("toulouseRewardSeen202610v2","1");
-    if(automaticFlow&&localStorage.getItem("toulouseChallengeSeen202610v2")!=="1"){
+    localStorage.setItem("toulouseRewardSeen202610v3","1");
+    if(automaticFlow&&localStorage.getItem("toulouseChallengeSeen202610v3")!=="1"){
       automaticFlow=false;
       challenge.showModal();
     }
@@ -861,10 +859,10 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   document.getElementById("openToulouseProgram").addEventListener("click",()=>program.showModal());
   document.getElementById("closeToulouseProgram").addEventListener("click",()=>program.close());
   program.addEventListener("click",event=>{if(event.target===program)program.close()});
-  document.getElementById("closeToulouseChallenge").addEventListener("click",()=>{localStorage.setItem("toulouseChallengeSeen202610v2","1");challenge.close()});
-  challenge.addEventListener("cancel",()=>localStorage.setItem("toulouseChallengeSeen202610v2","1"));
-  challenge.addEventListener("click",event=>{if(event.target===challenge){localStorage.setItem("toulouseChallengeSeen202610v2","1");challenge.close()}});
-  if(localStorage.getItem("toulouseRewardSeen202610v2")!=="1"){
+  document.getElementById("closeToulouseChallenge").addEventListener("click",()=>{localStorage.setItem("toulouseChallengeSeen202610v3","1");challenge.close()});
+  challenge.addEventListener("cancel",()=>localStorage.setItem("toulouseChallengeSeen202610v3","1"));
+  challenge.addEventListener("click",event=>{if(event.target===challenge){localStorage.setItem("toulouseChallengeSeen202610v3","1");challenge.close()}});
+  if(localStorage.getItem("toulouseRewardSeen202610v3")!=="1"){
     automaticFlow=true;
     setTimeout(()=>reward.showModal(),500);
   }
