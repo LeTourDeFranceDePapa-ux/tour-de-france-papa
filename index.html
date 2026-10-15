@@ -862,10 +862,8 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   document.getElementById("closeToulouseChallenge").addEventListener("click",()=>{localStorage.setItem("toulouseChallengeSeen202610v3","1");challenge.close()});
   challenge.addEventListener("cancel",()=>localStorage.setItem("toulouseChallengeSeen202610v3","1"));
   challenge.addEventListener("click",event=>{if(event.target===challenge){localStorage.setItem("toulouseChallengeSeen202610v3","1");challenge.close()}});
-  if(localStorage.getItem("toulouseRewardSeen202610v3")!=="1"){
-    automaticFlow=true;
-    setTimeout(()=>reward.showModal(),500);
-  }
+  automaticFlow=true;
+  setTimeout(()=>{if(!reward.open)reward.showModal()},500);
 })();
 </script>
 </body>
