@@ -847,7 +847,7 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   const closeReward=()=>{
     if(reward.open)reward.close();
     localStorage.setItem("toulouseRewardSeen202610v3","1");
-    if(automaticFlow&&localStorage.getItem("toulouseChallengeSeen202610v3")!=="1"){
+    if(automaticFlow){
       automaticFlow=false;
       challenge.showModal();
     }
@@ -866,5 +866,6 @@ const passport=document.querySelector("#passportDialog"),trackingDialog=document
   setTimeout(()=>{if(!reward.open)reward.showModal()},500);
 })();
 </script>
+<!-- Publication Toulouse v6 2026-10-15 -->
 </body>
 </html>
